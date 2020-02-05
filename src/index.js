@@ -1,4 +1,3 @@
-//import React from "react";
 import ReactDOM from "react-dom";
 import React, { Component } from 'react';
 import 'bootstrap-css-only/css/bootstrap.min.css';
@@ -61,6 +60,9 @@ class Navbar extends Component {
                 </MDBNavItem>
               </MDBNavbarNav>
               <MDBNavbarNav right>
+              <MDBNavItem>
+                  <MDBNavLink as={Link} to="/login">Login</MDBNavLink>
+                </MDBNavItem>
                 <MDBNavItem>
                   <MDBNavLink className="waves-effect waves-light" to="#!">
                     <MDBIcon fab icon="twitter" />
