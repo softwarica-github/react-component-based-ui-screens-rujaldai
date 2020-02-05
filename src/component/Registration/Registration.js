@@ -9,6 +9,19 @@ class Registration extends Component {
   constructor() {
     super();
     this.state = {
+      invalidPassword: "hidden",
+      invalidFullname: "hidden",
+      invalidAddress1: "hidden",
+      invalidEmail: "hidden",
+      invalidPhone: "hidden",
+      invalidMobile: "hidden",
+      formInvalid: true,
+      fullName:'',
+      email:'',
+      phone:'',
+      mobile:'',
+      address1:'',
+      address2:'',
       options: [
         {
           text: "User",
@@ -27,11 +40,75 @@ class Registration extends Component {
   }
 
   validatePassword = (event) => {
+    console.log(this.state.password +", "+event.target.value)
     if(this.state.password === event.target.value) {
       this.setState({password: event.target.value});
+      this.setState({invalidPassword: "hidden"});
+      this.setState({formInvalid: false});
+    }else{
+      this.setState({invalidPassword: "visible"});
+      this.setState({formInvalid: true});
     }
   }
 
+  validateFullname = (event) => {
+    console.log(this.state.fullName);
+    if(this.testingRegex("^[a-zA-Z]+ [a-zA-Z]+$",this.state.fullName)){
+      console.log(this.testingRegex("^[a-zA-Z]+ [a-zA-Z]+$",this.state.fullName));
+      this.setState({invalidFullname: "hidden"});
+      this.setState({formInvalid: false});
+    }else{
+      this.setState({invalidFullname: "visible"});
+      this.setState({formInvalid: true});
+    }
+  }
+
+
+  validateAddress1 = (event) => {
+    console.log(this.state.address1);
+    if(this.state.address1.length > 0){
+      this.setState({invalidAddress1: "hidden"});
+      this.setState({formInvalid: false});
+    }else{
+      this.setState({invalidAddress1: "visible"});
+      this.setState({formInvalid: true});
+    }
+  }
+  testingRegex(pattern, input){
+    const condition = new RegExp(pattern);
+    return condition.test(input);  
+  }
+  
+  validateEmail = (event) => {
+    if (!this.testingRegex("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$",this.state.email)) {
+      this.setState({invalidEmail: "visible"});
+      this.setState({formInvalid: true});
+    }else{
+      this.setState({invalidEmail: "hidden"});
+      this.setState({formInvalid: false});
+    } 
+  }
+  
+  validatePhone = (event) => {
+    if (this.testingRegex("^[1-9][0-9]{6}$",this.state.phone) ||
+    this.testingRegex("[0][1-9][0-9]{7}$",this.state.phone)) {
+      this.setState({invalidPhone: "hidden"});
+      this.setState({formInvalid: false});
+    }else{
+      this.setState({invalidPhone: "visible"});
+      this.setState({formInvalid: true});
+    } 
+  }
+  
+  validateMobile = (event) => {
+    if (!this.testingRegex("^[9][7-8][0-9][0-9]{7}$",this.state.mobile)) {
+      this.setState({invalidMobile: "visible"});
+      this.setState({formInvalid: true});
+    }else{
+      this.setState({invalidMobile: "hidden"});
+      this.setState({formInvalid: false});
+    } 
+  }
   submitForm = (event) => {
     event.preventDefault();
     var headers = {
@@ -56,8 +133,9 @@ class Registration extends Component {
         console.log(response);
         console.log("success");
     }, function(err) {
-        console.err(err);
+        console.log("err");
     })
+
   }
 
   render() {
@@ -77,14 +155,20 @@ class Registration extends Component {
                       type="text"
                       value={this.state.fullName}
                       onChange={e => this.setState({fullName: e.target.value})}
+                      onInput= {this.validateFullname}
                       validate
                       error="wrong"
                       success="right"
                     />
-                    <MDBInput
+                    <label 
+                      style={{visibility :this.state.invalidFullname, color: "red", marginLeft:"10%"}} >
+                      Please, enter fullname.
+                    </label>
+                      <MDBInput
                       label="Your email"
                       value={this.state.email}
                       onChange={e => this.setState({email: e.target.value})}
+                      onInput = {this.validateEmail}
                       icon="envelope"
                       group
                       type="email"
@@ -92,41 +176,58 @@ class Registration extends Component {
                       error="wrong"
                       success="right"
                     />
-                    
+                    <label 
+                      style={{visibility :this.state.invalidEmail, color: "red", marginLeft:"10%"}} >
+                      Please, enter valid email.
+                    </label>                    
                     <MDBInput
                       label="Phone no."
                       icon="envelope"
                       group
                       value={this.state.phone}
                       onChange={e => this.setState({phone: e.target.value})}
+                      onInput={this.validatePhone}
                       type="text"
                       validate
                       error="wrong"
                       success="right"
                     />
+                    <label 
+                      style={{visibility :this.state.invalidPhone, color: "red", marginLeft:"10%"}} >
+                      Invalid phone number.
+                    </label>
                     <MDBInput
                       label="Mobile no."
                       icon="envelope"
                       value={this.state.mobile}
                       onChange={e => {this.setState({mobile: e.target.value})}}
+                      onInput= {this.validateMobile}
                       group
                       type="text"
                       validate
                       error="wrong"
                       success="right"
                     />
-
+                    <label 
+                      style={{visibility :this.state.invalidMobile, color: "red", marginLeft:"10%"}} >
+                      Invalid mobile number.
+                    </label>
                     <MDBInput
                       label="Address1"
                       icon="envelope"
                       group
                       value={this.state.address1}
                       onChange={e => this.setState({address1: e.target.value})}
+                      onInput={this.validateAddress1}
                       type="text"
                       validate
                       error="wrong"
                       success="right"
                     />
+                    <label 
+                      style={{visibility :this.state.invalidAddress1, color: "red", marginLeft:"10%"}} >
+                      Please, enter valid address.
+                    </label>
 
                     <MDBInput
                       label="Address 2"
@@ -143,19 +244,25 @@ class Registration extends Component {
                       label="Your password"
                       icon="lock"
                       value={this.state.password}
+                      onChange={e => this.setState({password: e.target.value})}
                       group
                       type="password"
                       validate
                     />
                     <MDBInput
-                      label="Your password"
+                      label="Confirm your password"
                       icon="lock"
                       value={this.state.confirmPassword}
-                      onChange={this.validatePassword}
+                      onInput={this.validatePassword}
                       group
                       type="password"
                       validate
                     />
+                    <label 
+                      style={{visibility :this.state.invalidPassword, color: "red", marginLeft:"10%"}} >
+                      Invalid password details.
+                    </label>
+
                     <Form.Group style={{marginLeft: '2.5rem'}} controlId="exampleForm.ControlSelect1">
                       <Form.Label>Please select</Form.Label>
                       <Form.Control as="select">
@@ -168,7 +275,7 @@ class Registration extends Component {
                     </Form.Group>
                   </div>
                   <div className="text-center py-4 mt-3">
-                    <MDBBtn color="cyan" type="submit">
+                    <MDBBtn color="cyan" type="submit" disabled ={this.state.formInvalid} onclick="this.register">
                       Register
                     </MDBBtn>
                   </div>
