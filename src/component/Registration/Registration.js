@@ -9,6 +9,7 @@ class Registration extends Component {
   constructor() {
     super();
     this.state = {
+      modal: false,
       invalidPassword: "none",
       invalidFullname: "none",
       invalidAddress1: "none",
@@ -162,8 +163,6 @@ class Registration extends Component {
   render() {
     return (
       <MDBContainer>
-        <MDBRow>
-          <MDBCol md="6" style={{ margin: "0 auto" }}>
             <MDBCard>
               <MDBCardBody>
                 <form onSubmit={this.submitForm}>
@@ -176,7 +175,7 @@ class Registration extends Component {
                       type="text"
                       value={this.state.fullName}
                       onChange={e => this.setState({fullName: e.target.value})}
-                      onInput= {this.validateFullname}
+                      onBlur= {this.validateFullname}
                       validate
                       error="wrong"
                       success="right"
@@ -189,7 +188,7 @@ class Registration extends Component {
                       label="Your email"
                       value={this.state.email}
                       onChange={e => this.setState({email: e.target.value})}
-                      onInput = {this.validateEmail}
+                      onBlur = {this.validateEmail}
                       icon="envelope"
                       group
                       type="email"
@@ -207,7 +206,7 @@ class Registration extends Component {
                       group
                       value={this.state.phone}
                       onChange={e => this.setState({phone: e.target.value})}
-                      onInput={this.validatePhone}
+                      onBlur={this.validatePhone}
                       type="text"
                       validate
                       error="wrong"
@@ -222,7 +221,7 @@ class Registration extends Component {
                       icon="envelope"
                       value={this.state.mobile}
                       onChange={e => {this.setState({mobile: e.target.value})}}
-                      onInput= {this.validateMobile}
+                      onBlur= {this.validateMobile}
                       group
                       type="text"
                       validate
@@ -239,7 +238,7 @@ class Registration extends Component {
                       group
                       value={this.state.address1}
                       onChange={e => this.setState({address1: e.target.value})}
-                      onInput={this.validateAddress1}
+                      onBlur={this.validateAddress1}
                       type="text"
                       validate
                       error="wrong"
@@ -274,7 +273,7 @@ class Registration extends Component {
                       label="Confirm your password"
                       icon="lock"
                       value={this.state.confirmPassword}
-                      onInput={this.validatePassword}
+                      onBlur={this.validatePassword}
                       group
                       type="password"
                       validate
@@ -287,11 +286,7 @@ class Registration extends Component {
                     <Form.Group style={{marginLeft: '2.5rem'}} controlId="exampleForm.ControlSelect1">
                       <Form.Label>Please select</Form.Label>
                       <Form.Control as="select">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
+                        <option value="MERCHANT_USER">MERCHANT</option>
                       </Form.Control>
                     </Form.Group>
                   </div>
@@ -303,8 +298,6 @@ class Registration extends Component {
                 </form>
               </MDBCardBody>
             </MDBCard>
-          </MDBCol>
-        </MDBRow>
       </MDBContainer>
     );
   }
