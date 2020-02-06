@@ -4,10 +4,13 @@ import React, { Component } from "react";
 import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn, MDBCard, MDBCardBody, MDBSelect } from 'mdbreact';
 import {Form} from 'react-bootstrap';
 import Axios from 'axios';
+import  { BrowserRouter as Router, Switch, Link, Route, Redirect } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 class Registration extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       modal: false,
       invalidPassword: "none",
@@ -17,7 +20,7 @@ class Registration extends Component {
       invalidPhone: "none",
       invalidMobile: "none",  
       formInvalid: true,
-      fullName:'',
+      fullname:'',
       email:'',
       phone:'',
       mobile:'',
@@ -56,9 +59,9 @@ class Registration extends Component {
   }
 
   validateFullname = (event) => {
-    console.log(this.state.fullName);
-    if(this.testingRegex("^[a-zA-Z]+ [a-zA-Z]+$",this.state.fullName)){
-      console.log(this.testingRegex("^[a-zA-Z]+ [a-zA-Z]+$",this.state.fullName));
+    console.log(this.state.fullname);
+    if(this.testingRegex("^[a-zA-Z]+ [a-zA-Z]+$",this.state.fullname)){
+      console.log(this.testingRegex("^[a-zA-Z]+ [a-zA-Z]+$",this.state.fullname));
       this.setState({
         invalidFullname: "none",
         formInvalid: false
@@ -122,7 +125,7 @@ class Registration extends Component {
   }
   
   validateMobile = (event) => {
-    if (!this.testingRegex("^[9][7-8][0-9][0-9]{6}$",this.state.mobile)) {
+    if (!this.testingRegex("^[9][7-8][0-9][0-9]{7}$",this.state.mobile)) {
       this.setState({
         invalidMobile: "block",
         formInvalid: true
@@ -133,6 +136,8 @@ class Registration extends Component {
         formInvalid: false});
     } 
   }
+
+
   submitForm = (event) => {
     event.preventDefault();
     var headers = {
@@ -140,7 +145,7 @@ class Registration extends Component {
     }
 
     var data = {
-      fullName: this.state.fullName,
+      fullname: this.state.fullname,
       email: this.state.email,
       username: this.state.username,
       phone: this.state.phone,
@@ -153,11 +158,13 @@ class Registration extends Component {
     Axios.post("http://localhost:3023/api/user/registration", data, headers)
     .then(function(response) {
         console.log(response);
-        console.log("success");
+        toast("User registered successfully.",{autoClose: 3000});
+        setTimeout(()=>{
+          window.location.replace('/login') ;
+        },3000);
     }, function(err) {
         console.log(err);
     })
-
   }
 
   render() {
@@ -173,8 +180,8 @@ class Registration extends Component {
                       icon="user"
                       group
                       type="text"
-                      value={this.state.fullName}
-                      onChange={e => this.setState({fullName: e.target.value})}
+                      value={this.state.fullname}
+                      onChange={e => this.setState({fullname: e.target.value})}
                       onBlur= {this.validateFullname}
                       validate
                       error="wrong"

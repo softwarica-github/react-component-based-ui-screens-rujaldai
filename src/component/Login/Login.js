@@ -61,7 +61,7 @@ class Login extends Component {
         Axios.post("http://localhost:3023/api/user/login", data, headers)
         .then(function(response) {
             console.log(response);
-            alert(response.body);
+            // window.location.replace('/dashboard') ;
         }, function(err) {
             console.log(err);
         })
