@@ -5,6 +5,9 @@ import 'mdbreact/dist/css/mdb.css';
 //import 'bootstrap/dist/css/bootstrap.min.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Switch, Link, Route } from "react-router-dom";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 //import { Nav, Container, Row, Col, Card } from "react-bootstrap";
 
 import Login from "./component/Login/Login";
@@ -13,6 +16,7 @@ import Food from "./component/Accessories/Accessories";
 import Room from "./component/Pets/Pets";
 import Book from './component/Order/Order';
 import Home from './component/home/home';
+import Dashboard from './component/Dashboard/dashboard';
 
 import {
   MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavItem, MDBNavLink, MDBNavbarToggler, MDBCollapse, MDBDropdown,
@@ -20,6 +24,11 @@ import {
 } from "mdbreact";
 import { Col } from "reactstrap";
 //import { BrowserRouter as Router} from 'react-router-dom';
+toast.configure({
+  autoClose: 8000,
+  draggable: false,
+  //etc you get the idea
+});
 
 class Navbar extends Component {
   state = {
@@ -94,6 +103,7 @@ class Navbar extends Component {
             <Route exact path="/pets" component={Food} />
             <Route exact path="/accessories" component={Room} />
             <Route exact path="/blog" component={Book} />
+            <Route exact path="/dashboard" component={Dashboard} />
           </Switch>
         </Router>
       </Container>
