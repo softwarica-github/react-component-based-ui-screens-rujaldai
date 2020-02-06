@@ -9,12 +9,12 @@ class Registration extends Component {
   constructor() {
     super();
     this.state = {
-      invalidPassword: "hidden",
-      invalidFullname: "hidden",
-      invalidAddress1: "hidden",
-      invalidEmail: "hidden",
-      invalidPhone: "hidden",
-      invalidMobile: "hidden",
+      invalidPassword: "none",
+      invalidFullname: "none",
+      invalidAddress1: "none",
+      invalidEmail: "none",
+      invalidPhone: "none",
+      invalidMobile: "none",  
       formInvalid: true,
       fullName:'',
       email:'',
@@ -42,12 +42,15 @@ class Registration extends Component {
   validatePassword = (event) => {
     console.log(this.state.password +", "+event.target.value)
     if(this.state.password === event.target.value) {
-      this.setState({password: event.target.value});
-      this.setState({invalidPassword: "hidden"});
-      this.setState({formInvalid: false});
+      this.setState({
+        invalidPassword: "none",
+        formInvalid: false
+    });
     }else{
-      this.setState({invalidPassword: "visible"});
-      this.setState({formInvalid: true});
+      this.setState({
+        invalidPassword: "block",
+        formInvalid: true
+      });
     }
   }
 
@@ -55,11 +58,15 @@ class Registration extends Component {
     console.log(this.state.fullName);
     if(this.testingRegex("^[a-zA-Z]+ [a-zA-Z]+$",this.state.fullName)){
       console.log(this.testingRegex("^[a-zA-Z]+ [a-zA-Z]+$",this.state.fullName));
-      this.setState({invalidFullname: "hidden"});
-      this.setState({formInvalid: false});
+      this.setState({
+        invalidFullname: "none",
+        formInvalid: false
+      });
     }else{
-      this.setState({invalidFullname: "visible"});
-      this.setState({formInvalid: true});
+      this.setState({
+        invalidFullname: "block",
+        formInvalid: true
+      });
     }
   }
 
@@ -67,13 +74,18 @@ class Registration extends Component {
   validateAddress1 = (event) => {
     console.log(this.state.address1);
     if(this.state.address1.length > 0){
-      this.setState({invalidAddress1: "hidden"});
-      this.setState({formInvalid: false});
+      this.setState({
+        invalidAddress1: "none",
+        formInvalid: false
+      });
     }else{
-      this.setState({invalidAddress1: "visible"});
-      this.setState({formInvalid: true});
+      this.setState({
+        invalidAddress1: "block",
+        formInvalid: true
+      });
     }
   }
+
   testingRegex(pattern, input){
     const condition = new RegExp(pattern);
     return condition.test(input);  
@@ -81,32 +93,43 @@ class Registration extends Component {
   
   validateEmail = (event) => {
     if (!this.testingRegex("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$",this.state.email)) {
-      this.setState({invalidEmail: "visible"});
-      this.setState({formInvalid: true});
+      this.setState({
+        invalidEmail: "block",
+        formInvalid: true
+      });
     }else{
-      this.setState({invalidEmail: "hidden"});
-      this.setState({formInvalid: false});
+      this.setState({
+        invalidEmail: "none",
+        formInvalid: false
+      });
     } 
   }
   
   validatePhone = (event) => {
     if (this.testingRegex("^[1-9][0-9]{6}$",this.state.phone) ||
     this.testingRegex("[0][1-9][0-9]{7}$",this.state.phone)) {
-      this.setState({invalidPhone: "hidden"});
-      this.setState({formInvalid: false});
+      this.setState({
+        invalidPhone: "none",
+        formInvalid: false
+      });
     }else{
-      this.setState({invalidPhone: "visible"});
-      this.setState({formInvalid: true});
+      this.setState({
+        invalidPhone: "block",
+        formInvalid: true
+      });
     } 
   }
   
   validateMobile = (event) => {
-    if (!this.testingRegex("^[9][7-8][0-9][0-9]{7}$",this.state.mobile)) {
-      this.setState({invalidMobile: "visible"});
-      this.setState({formInvalid: true});
+    if (!this.testingRegex("^[9][7-8][0-9][0-9]{6}$",this.state.mobile)) {
+      this.setState({
+        invalidMobile: "block",
+        formInvalid: true
+      });
     }else{
-      this.setState({invalidMobile: "hidden"});
-      this.setState({formInvalid: false});
+      this.setState({
+        invalidMobile: "none",
+        formInvalid: false});
     } 
   }
   submitForm = (event) => {
@@ -126,14 +149,12 @@ class Registration extends Component {
       password: this.state.password
     }
 
-    console.log(data);
-
-    Axios.post("http//localhost:3023/register", data, headers)
+    Axios.post("http://localhost:3023/api/user/registration", data, headers)
     .then(function(response) {
         console.log(response);
         console.log("success");
     }, function(err) {
-        console.log("err");
+        console.log(err);
     })
 
   }
@@ -161,7 +182,7 @@ class Registration extends Component {
                       success="right"
                     />
                     <label 
-                      style={{visibility :this.state.invalidFullname, color: "red", marginLeft:"10%"}} >
+                      style={{display :this.state.invalidFullname, color: "red", marginLeft:"10%"}} >
                       Please, enter fullname.
                     </label>
                       <MDBInput
@@ -177,7 +198,7 @@ class Registration extends Component {
                       success="right"
                     />
                     <label 
-                      style={{visibility :this.state.invalidEmail, color: "red", marginLeft:"10%"}} >
+                      style={{display :this.state.invalidEmail, color: "red", marginLeft:"10%"}} >
                       Please, enter valid email.
                     </label>                    
                     <MDBInput
@@ -193,7 +214,7 @@ class Registration extends Component {
                       success="right"
                     />
                     <label 
-                      style={{visibility :this.state.invalidPhone, color: "red", marginLeft:"10%"}} >
+                      style={{display :this.state.invalidPhone, color: "red", marginLeft:"10%"}} >
                       Invalid phone number.
                     </label>
                     <MDBInput
@@ -209,7 +230,7 @@ class Registration extends Component {
                       success="right"
                     />
                     <label 
-                      style={{visibility :this.state.invalidMobile, color: "red", marginLeft:"10%"}} >
+                      style={{display :this.state.invalidMobile, color: "red", marginLeft:"10%"}} >
                       Invalid mobile number.
                     </label>
                     <MDBInput
@@ -225,7 +246,7 @@ class Registration extends Component {
                       success="right"
                     />
                     <label 
-                      style={{visibility :this.state.invalidAddress1, color: "red", marginLeft:"10%"}} >
+                      style={{display :this.state.invalidAddress1, color: "red", marginLeft:"10%"}} >
                       Please, enter valid address.
                     </label>
 
@@ -259,7 +280,7 @@ class Registration extends Component {
                       validate
                     />
                     <label 
-                      style={{visibility :this.state.invalidPassword, color: "red", marginLeft:"10%"}} >
+                      style={{display :this.state.invalidPassword, color: "red", marginLeft:"10%"}} >
                       Invalid password details.
                     </label>
 

@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import {Link} from 'react-router-dom';
 //import icon from 'material-ui/'
 import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn, MDBCard, MDBCardBody } from 'mdbreact';
 
@@ -7,8 +8,8 @@ class Login extends Component {
   constructor(props){
       super(props);
       this.state= {
-        invalidEmail : 'hidden',
-        invalidPassword : 'hidden',
+        invalidEmail : 'none',
+        invalidPassword : 'none',
         email :'',
         password :''
       };   
@@ -21,17 +22,19 @@ class Login extends Component {
     
   validateEmail = (event) => {
     if (!this.testingRegex("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$",this.state.email)) {
-      this.setState({invalidEmail: "visible"});
+      this.setState({invalidEmail: "block"});
     }else{
-      this.setState({invalidEmail: "hidden"});
+      this.setState({invalidEmail: "none"});
     } 
   }
 
   validatePassword = (event) =>{
-    this.setState({invalidPassword: "hidden"});
+    this.setState({invalidPassword: "none"});
     if(this.state.password.length < 5){
-      this.setState({invalidPassword: "visible"});
-      this.setState({invalidForm : true});
+      this.setState({
+        invalidPassword: "block",
+        invalidForm: true
+      });
     }
   }
 
@@ -39,7 +42,7 @@ class Login extends Component {
     this.validateEmail();
     this.validatePassword();
     if(this.state.email !== '' || this.state.password !== ''){
-      if(this.state.invalidEmail === 'visible' || this.state.invalidPassword === 'visible'){
+      if(this.state.invalidEmail === 'block' || this.state.invalidPassword === 'block'){
         alert("login failed");
       } else{
         alert("login in progress");
@@ -70,7 +73,7 @@ class Login extends Component {
                       success="right"
                     />
                     <label 
-                      style={{visibility :this.state.invalidEmail, color: "red", marginLeft:"10%"}} >
+                      style={{display :this.state.invalidEmail, color: "red", marginLeft:"10%"}} >
                       Please, enter valid email.
                     </label>
                     <MDBInput
@@ -84,12 +87,15 @@ class Login extends Component {
                     />
                   </div>
                   <label 
-                      style={{visibility :this.state.invalidPassword, color: "red", marginLeft:"10%"}} >
+                      style={{display :this.state.invalidPassword, color: "red", marginLeft:"10%"}} >
                       Password must be atleast 5 characters.
                   </label>
-                  <div className="text-center">
+                  <MDBCol sm={6}>
                     <MDBBtn onClick = {this.doLogin}>Login</MDBBtn>
-                  </div>
+                  </MDBCol>
+                  <MDBCol sm="6">
+                    <Link to="/register"> Do not have an account? Register </Link>
+                  </MDBCol>
                 </form>
               </MDBCardBody>
             </MDBCard>
