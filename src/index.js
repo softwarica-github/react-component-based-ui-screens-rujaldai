@@ -53,8 +53,8 @@ class Navbar extends Component {
                       <div className="d-none d-md-inline">Services</div>
                     </MDBDropdownToggle>
                     <MDBDropdownMenu className="dropdown-default">
-                      <Link style={{paddingTop:'0px'}} to="/pets"><MDBDropdownItem>Pets</MDBDropdownItem></Link>
-                      <Link to="/accessories" ><MDBDropdownItem>Accessories</MDBDropdownItem></Link>
+                      <MDBDropdownItem><Link to="/pets">Pets</Link></MDBDropdownItem>
+                      <MDBDropdownItem><Link to="/accessories" >Accessories</Link></MDBDropdownItem>
                     </MDBDropdownMenu>
                   </MDBDropdown>
                 </MDBNavItem>
@@ -79,7 +79,7 @@ class Navbar extends Component {
                       <span>User</span><MDBIcon icon="user" />
                     </MDBDropdownToggle>
                     <MDBDropdownMenu className="dropdown-default">
-                      <Link to="/register"><MDBDropdownItem >Register</MDBDropdownItem></Link>
+                      <MDBDropdownItem ><Link to="/register">Register</Link></MDBDropdownItem>
                     </MDBDropdownMenu>
                   </MDBDropdown>
                 </MDBNavItem>
