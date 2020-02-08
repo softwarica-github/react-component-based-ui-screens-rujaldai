@@ -17,6 +17,7 @@ import Room from "./component/Pets/Pets";
 import Book from './component/Order/Order';
 import Home from './component/home/home';
 import Dashboard from './component/Dashboard/dashboard';
+import Profile from './component/profile/profile';
 
 import {
   MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavItem, MDBNavLink, MDBNavbarToggler, MDBCollapse, MDBDropdown,
@@ -111,11 +112,9 @@ class Navbar extends Component {
                     <MDBDropdownToggle nav caret>
                     <strong style ={{color: 'white'}}>Welcome, {this.state.name}</strong> 
                     </MDBDropdownToggle>
-                    <MDBDropdownMenu className="dropdown-default">
+                    <MDBDropdownMenu className="dropdown-default" right>
                       <MDBDropdownItem ><Link to="/profile">Profile</Link></MDBDropdownItem>
-                    </MDBDropdownMenu>
-                    <MDBDropdownMenu className="dropdown-default">
-                      <MDBDropdownItem onClick ={this.logout} >log out</MDBDropdownItem>
+                      <MDBDropdownItem onClick ={this.logout} ><p style={{marginLeft:'10px'}} >log out</p></MDBDropdownItem>
                     </MDBDropdownMenu>
                   </MDBDropdown>
                 </MDBNavItem><MDBNavItem style={{ display: this.state.homeItem}}>
@@ -140,6 +139,7 @@ class Navbar extends Component {
             <Route exact path="/accessories" component={Room} />
             <Route exact path="/blog" component={Book} />
             <Route exact path="/dashboard" component={Dashboard} />
+            <Route exact path="/profile" component={Profile} />
           </Switch>
         </Router>
       </Container>
