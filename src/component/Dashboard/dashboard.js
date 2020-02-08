@@ -22,7 +22,7 @@ class Dashboard extends Component {
 
    render() {
     return (
-      <MDBContainer>
+      <div>
         <MDBRow>
           <MDBCol md="12" lg="12" style={{ margin: "0 auto" }}>
             <MDBCard>
@@ -32,7 +32,7 @@ class Dashboard extends Component {
             </MDBCard>
           </MDBCol>
         </MDBRow>
-      </MDBContainer>
+      </div>
     );
   }
 };

@@ -32,11 +32,32 @@ toast.configure({
 
 class Navbar extends Component {
   state = {
-    isOpen: false
+    isOpen: false,
+    isAuthenticated : 'none',
+    homeItem: 'block',
+    name: ''
   };
 
   toggleCollapse = () => {
     this.setState({ isOpen: !this.state.isOpen });
+  }
+
+  logout = () =>{
+    localStorage.clear();
+    this.setState({authItems : 'none'});
+    this.setState({homeItem : 'block'});
+    window.location.replace("/home"); 
+  }
+
+  componentDidMount(){
+    if(localStorage.getItem("isAuthenticated")=== 'true'){
+      this.setState({authItems : 'block'});
+      this.setState({homeItem : 'none'}); 
+      this.state.name = localStorage.getItem("fullname");
+    }else{
+      this.setState({authItems : 'none'});
+      this.setState({homeItem : 'block'}); 
+    }
   }
 
   render() {
@@ -50,13 +71,16 @@ class Navbar extends Component {
             <MDBNavbarToggler onClick={this.toggleCollapse} />
             <MDBCollapse id="navbarCollapse3" isOpen={this.state.isOpen} navbar>
               <MDBNavbarNav left>
-                <MDBNavItem active>
+                <MDBNavItem active  style={{ display: this.state.homeItem}}>
                   <MDBNavLink as={Link} to="/home">Home</MDBNavLink>
+                </MDBNavItem>
+                <MDBNavItem active  style={{ display: this.state.authItems}}>
+                  <MDBNavLink as={Link} to="/dashboard">Home</MDBNavLink>
                 </MDBNavItem>
                 <MDBNavItem>
                   <MDBNavLink as={Link} to="/blogs">Blogs</MDBNavLink>
                 </MDBNavItem>
-                <MDBNavItem>
+                <MDBNavItem style={{ display: this.state.homeItem}}>
                   <MDBDropdown>
                     <MDBDropdownToggle nav caret>
                       <div className="d-none d-md-inline">Services</div>
@@ -69,7 +93,7 @@ class Navbar extends Component {
                 </MDBNavItem>
               </MDBNavbarNav>
               <MDBNavbarNav right>
-              <MDBNavItem>
+                <MDBNavItem style={{ display: this.state.homeItem}}>
                   <MDBNavLink as={Link} to="/login">Login</MDBNavLink>
                 </MDBNavItem>
                 <MDBNavItem>
@@ -82,7 +106,19 @@ class Navbar extends Component {
                     <MDBIcon fab icon="google-plus-g" />
                   </MDBNavLink>
                 </MDBNavItem>
-                <MDBNavItem>
+                <MDBNavItem style={{ display: this.state.authItems}}>
+                  <MDBDropdown>
+                    <MDBDropdownToggle nav caret>
+                    <strong style ={{color: 'white'}}>Welcome, {this.state.name}</strong> 
+                    </MDBDropdownToggle>
+                    <MDBDropdownMenu className="dropdown-default">
+                      <MDBDropdownItem ><Link to="/profile">Profile</Link></MDBDropdownItem>
+                    </MDBDropdownMenu>
+                    <MDBDropdownMenu className="dropdown-default">
+                      <MDBDropdownItem onClick ={this.logout} >log out</MDBDropdownItem>
+                    </MDBDropdownMenu>
+                  </MDBDropdown>
+                </MDBNavItem><MDBNavItem style={{ display: this.state.homeItem}}>
                   <MDBDropdown>
                     <MDBDropdownToggle nav caret>
                       <span>User</span><MDBIcon icon="user" />

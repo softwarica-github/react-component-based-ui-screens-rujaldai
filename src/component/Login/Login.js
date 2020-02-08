@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn, MDBCard, MDBCardBody, MDBModal, MDBModalBody, MDBModalHeader } from 'mdbreact';
 import Registration from '../Registration/Registration'; 
 import Axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 class Login extends Component {
   constructor(props) {
@@ -60,9 +62,21 @@ class Login extends Component {
         }
         Axios.post("http://localhost:3023/api/user/login", data, headers)
         .then(function(response) {
-            console.log(response);
-            // window.location.replace('/dashboard') ;
+          localStorage.setItem('isAuthenticated',true);
+          localStorage.setItem('userToken',response.data.userToken);
+          localStorage.setItem('fullname',response.data.fullname);
+          localStorage.setItem('username',response.data.username);
+          localStorage.setItem('address1',response.data.address1);
+          localStorage.setItem('address2',response.data.address2);
+          localStorage.setItem('mobile',response.data.mobile);
+          localStorage.setItem('phone',response.data.phone);
+          toast("User logged in successfully.",{autoClose: 3000});
+          setTimeout(()=>{
+            window.location.replace('/dashboard') ;
+          },3000);
         }, function(err) {
+            toast("Username or password incorrect.",{autoClose: 3000});
+            localStorage.setItem('isAuthenticated',false);
             console.log(err);
         })
       }
