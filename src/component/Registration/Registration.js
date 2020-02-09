@@ -147,12 +147,12 @@ class Registration extends Component {
     var data = {
       fullname: this.state.fullname,
       email: this.state.email,
-      username: this.state.username,
       phone: this.state.phone,
       mobile: this.state.mobile,
       address1: this.state.address1,
       address2: this.state.address2,
-      password: this.state.password
+      password: this.state.password,
+      userType: "USER"
     }
 
     Axios.post("http://localhost:3023/api/user/registration", data, headers)
