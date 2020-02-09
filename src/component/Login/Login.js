@@ -54,7 +54,7 @@ class Login extends Component {
         alert("login failed");
       } else {  
         var data ={
-          username : this.state.email,
+          email : this.state.email,
           password : this.state.password
         }
         var headers = {
@@ -64,12 +64,12 @@ class Login extends Component {
         .then(function(response) {
           localStorage.setItem('isAuthenticated',true);
           localStorage.setItem('userToken',response.data.userToken);
-          localStorage.setItem('fullname',response.data.fullname);
-          localStorage.setItem('username',response.data.username);
-          localStorage.setItem('address1',response.data.address1);
-          localStorage.setItem('address2',response.data.address2);
-          localStorage.setItem('mobile',response.data.mobile);
-          localStorage.setItem('phone',response.data.phone);
+          localStorage.setItem('fullname',response.data.user.fullname);
+          localStorage.setItem('email',response.data.user.email);
+          localStorage.setItem('address1',response.data.user.address1);
+          localStorage.setItem('address2',response.data.user.address2);
+          localStorage.setItem('mobile',response.data.user.mobile);
+          localStorage.setItem('phone',response.data.user.phone);
           toast("User logged in successfully.",{autoClose: 3000});
           setTimeout(()=>{
             window.location.replace('/dashboard') ;

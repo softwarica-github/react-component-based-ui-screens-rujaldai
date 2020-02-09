@@ -8,7 +8,7 @@ class Profile extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            username: localStorage.getItem("username"),
+            email: localStorage.getItem("email"),
             fullname: localStorage.getItem("fullname"),
             mobile: localStorage.getItem("mobile"),
             phone: localStorage.getItem("phone"),
@@ -29,8 +29,8 @@ class Profile extends Component {
                     <MDBTable>
                         <MDBTableBody>
                             <tr>
-                            <td width="300px">Username</td>
-                            <td>{this.state.username}</td>
+                            <td width="300px">Email</td>
+                            <td>{this.state.email}</td>
                             </tr>
                             <tr>
                             <td>Name</td>
