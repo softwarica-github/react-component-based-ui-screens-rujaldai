@@ -81,14 +81,27 @@ class Navbar extends Component {
                 <MDBNavItem>
                   <MDBNavLink as={Link} to="/blogs">Blogs</MDBNavLink>
                 </MDBNavItem>
-                <MDBNavItem style={{ display: this.state.homeItem}}>
+                <MDBNavItem >
                   <MDBDropdown>
                     <MDBDropdownToggle nav caret>
                       <div className="d-none d-md-inline">Services</div>
                     </MDBDropdownToggle>
                     <MDBDropdownMenu className="dropdown-default">
-                      <MDBDropdownItem><Link to="/pets">Pets</Link></MDBDropdownItem>
-                      <MDBDropdownItem><Link to="/accessories" >Accessories</Link></MDBDropdownItem>
+                      <MDBDropdownItem style={{ display: this.state.homeItem}}>
+                        <Link to="/pets">Pets</Link>
+                      </MDBDropdownItem>
+                      <MDBDropdownItem style={{ display: this.state.homeItem}}>
+                        <Link to="/accessories" >Accessories</Link
+                      ></MDBDropdownItem>
+                      <MDBDropdownItem  style={{ display: this.state.authItems}}>
+                        <Link to="/pets">My Pets</Link>
+                      </MDBDropdownItem>
+                      <MDBDropdownItem  style={{ display: this.state.authItems}}> 
+                        <Link to="/accessories" > My Accessories</Link>
+                      </MDBDropdownItem>
+                      <MDBDropdownItem  style={{ display: this.state.authItems}}> 
+                        <Link to="/services" > My Services</Link>
+                      </MDBDropdownItem>
                     </MDBDropdownMenu>
                   </MDBDropdown>
                 </MDBNavItem>
