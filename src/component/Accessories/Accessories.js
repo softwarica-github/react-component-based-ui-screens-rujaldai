@@ -2,7 +2,7 @@ import React from "react";
 import { MDBModalBody, MDBModalFooter, MDBModalHeader, MDBModal, MDBRow, MDBCol, MDBCard, MDBCardBody, MDBMask, MDBIcon, MDBView, MDBBtn, MDBContainer } from "mdbreact";
 import ProductForm from "../ProductForm/ProductForm";
 
-class Food extends React.Component {
+class Accessories extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -131,4 +131,4 @@ class Food extends React.Component {
   }
 }
 
-export default Food;
+export default Accessories;
