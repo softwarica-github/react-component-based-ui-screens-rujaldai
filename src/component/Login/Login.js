@@ -70,6 +70,7 @@ class Login extends Component {
           localStorage.setItem('address2',response.data.user.address2);
           localStorage.setItem('mobile',response.data.user.mobile);
           localStorage.setItem('phone',response.data.user.phone);
+          localStorage.setItem('user_id',response.data.user.id);
           toast("User logged in successfully.",{autoClose: 3000});
           setTimeout(()=>{
             window.location.replace('/dashboard') ;

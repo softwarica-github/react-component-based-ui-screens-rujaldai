@@ -12,10 +12,11 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import Login from "./component/Login/Login";
 import Registration from "./component/Registration/Registration";
-import Food from "./component/Accessories/Accessories";
-import Room from "./component/Pets/Pets";
+import Accessories from "./component/Accessories/Accessories";
+import Pets from "./component/Pets/Pets";
 import Book from './component/Order/Order';
 import Home from './component/home/home';
+import Services from './component/services/Services';
 import Dashboard from './component/Dashboard/dashboard';
 import Profile from './component/profile/profile';
 
@@ -91,16 +92,16 @@ class Navbar extends Component {
                         <Link to="/pets">Pets</Link>
                       </MDBDropdownItem>
                       <MDBDropdownItem style={{ display: this.state.homeItem}}>
-                        <Link to="/accessories" >Accessories</Link
+                        <Link to="/accessories">Accessories</Link
                       ></MDBDropdownItem>
                       <MDBDropdownItem  style={{ display: this.state.authItems}}>
                         <Link to="/pets">My Pets</Link>
                       </MDBDropdownItem>
                       <MDBDropdownItem  style={{ display: this.state.authItems}}> 
-                        <Link to="/accessories" > My Accessories</Link>
+                        <Link to="/accessories"> My Accessories</Link>
                       </MDBDropdownItem>
                       <MDBDropdownItem  style={{ display: this.state.authItems}}> 
-                        <Link to="/services" > My Services</Link>
+                        <Link to="/services"> My Services</Link>
                       </MDBDropdownItem>
                     </MDBDropdownMenu>
                   </MDBDropdown>
@@ -148,8 +149,9 @@ class Navbar extends Component {
             <Route exact path="/home" component={Home} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/register" component={Registration} />
-            <Route exact path="/pets" component={Food} />
-            <Route exact path="/accessories" component={Room} />
+            <Route exact path="/pets" component={Pets} />
+            <Route exact path="/accessories" component={Accessories} />
+            <Route exact path="/services" component={Services} />
             <Route exact path="/blog" component={Book} />
             <Route exact path="/dashboard" component={Dashboard} />
             <Route exact path="/profile" component={Profile} />

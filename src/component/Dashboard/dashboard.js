@@ -23,6 +23,7 @@ class Dashboard extends Component {
     if(localStorage.getItem("isAuthenticated")=== 'true'){
       this.state.name = localStorage.getItem("fullname");
     }
+    
     var items =[
       {name:"Golden Retriber",type:"PET",price:"300$",desc:"Guess what ?? its a retriver.",
       image:"https://www.thesprucepets.com/thmb/daHAnhowPummm2Uqe1O5drHsp-8=/960x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/golden-retriever-sitting-down-in-a-farm-837898820-5c7854ff46e0fb00011bf29a.jpg"},
@@ -90,7 +91,7 @@ class Dashboard extends Component {
             </h3>
             <p>{this.state.pets[0].desc} </p>
             <MDBBtn color="success" size="md" className="waves-light ">
-              MORE
+            <Link to="/pets">MORE</Link>
             </MDBBtn>
           </MDBCol>
         </MDBRow>
@@ -112,9 +113,8 @@ class Dashboard extends Component {
             <MDBBtn
               color="pink"
               size="md"
-              className="mb-lg-0 mb-4 waves-light"
-            >
-              MORE
+              className="mb-lg-0 mb-4 waves-light">
+              <Link to="/accessories">MORE</Link>
             </MDBBtn>
           </MDBCol>
           <MDBCol lg="5">
@@ -157,7 +157,7 @@ class Dashboard extends Component {
             <p>{this.state.services[0].desc}
             </p>
             <MDBBtn color="indigo" size="md" className="waves-light ">
-              MORE
+            <Link to="/services">MORE</Link>  
             </MDBBtn>
           </MDBCol>
         </MDBRow>
