@@ -10,11 +10,14 @@ class Pets extends React.Component {
     super(props);
     this.state = {
       modal: false,
+      modalEdit: false,
       petList:[],
       test: 'hello',
       loaded : false,
-      petDisplay:[]
+      petDisplay:[],
+      pet :[]
     }
+    this.toggleEdit = this.toggleEdit.bind(this);
   }
 
   toggle = () => {
@@ -23,27 +26,50 @@ class Pets extends React.Component {
     });
   }
 
+
+  toggleEdit = function(product){
+    console.log("test");
+    console.log(product);
+    this.state.pet = product;
+    this.setState({
+      modalEdit: !this.state.modalEdit
+    });
+  }
+
+  
+  removePet = function(pet){
+    console.log(pet);
+  
+    const axios = require('axios');
+    const { version } = require('axios/package');
+    axios.defaults.headers.common['Authorization'] = 'Bearer '+localStorage.getItem('userToken');
+    axios.defaults.headers.common['Content-Type'] = 'application/json';
+   
+    axios.post("http://localhost:3023/api/product/"+pet.id,null)
+    .then(function(response) {
+      toast("Product deleted successfully.",{autoClose: 1000});
+      setTimeout(()=>{
+        window.location.replace('/pets') ;
+      },1000);
+    });
+  
+  }
+
   componentDidMount(){
-    var pets= [];
     var user_id = localStorage.getItem('user_id');
+    var online = localStorage.getItem('isAuthenticated') === 'true';
     fetch("http://localhost:3023/api/product/"+user_id+"/all")
     .then(response => {
       return response.json();
     }).then(data =>{
-        // toast("Product fetched successfully.",{autoClose: 3000});
-        // for(var item in response.data.products){
-        //   pets.push(response.data.products[item]);
-        // }
-        // for(var item in pets){
-        //   this.state.petList.push(pets[item]);
-        // }
         console.log(data.products);
         let petDisplay = data.products.map((pet)=> {
           return(
-            <MDBRow>
-              <MDBCol lg="5" xl="4">
+            <div style={{margin: '59px'}}>
+            <MDBRow >
+              <MDBCol lg="5" xl="4"  >
                 <MDBView hover className="rounded z-depth-1-half mb-lg-0 mb-4">
-                  <img
+                  <img style={{maxHeight : '200px', width:'100%', height :'100%'}}
                     className="img-fluid"
                     src={pet.image}
                     alt=""
@@ -53,18 +79,34 @@ class Pets extends React.Component {
                   </a>
                 </MDBView>
               </MDBCol>
-              <MDBCol lg="7" xl="8">
-                <h3 className="font-weight-bold mb-3 p-0">
-                  <strong>Platinum</strong>
+              <MDBCol  lg="7" xl="8">
+                <h3 style={{textAlign : 'left'}} className="font-weight-bold mb-3 p-0">
+                  <strong>{pet.name}</strong>
                 </h3>
-                <p className="dark-grey-text">
-                  {pet.desc}
+                <p style={{textAlign : 'left'}} className="dark-grey-text">
+                  <strong>Price : </strong>Rs. {pet.price} 
+                </p>
+              <p style={{textAlign : 'left'}} className="dark-grey-text">
+              <strong>Description: </strong>{pet.desc}
               </p>
-                <MDBBtn color="primary" size="md">
-                  Book Now
-              </MDBBtn>
+                
+              <MDBBtn style={{display: online ? 'none' : 'inline-block'}} color="primary" size="md">
+                    Book Now
+                </MDBBtn>
+              <a >              
+                <span onClick ={() => this.toggleEdit(pet)} style={{textAlign: 'left', color: 'blue', paddingRight :'30px'}}>
+                  Edit
+                </span>            
+              </a>
+              <a >              
+                <span onClick={() => this.removePet(pet)}  style={{textAlign: 'left', color: 'blue', paddingRight :'30px'}} >
+                  Remove
+                </span>
+              </a>
               </MDBCol>
             </MDBRow>
+
+            </div>
             )
         });
         this.setState({petDisplay: petDisplay})
@@ -88,10 +130,12 @@ class Pets extends React.Component {
               <ProductForm name="Pets" type="pets" />
             </MDBModalBody>
           </MDBModal>
-          <p className="text-center w-responsive mx-auto mb-5">
-            ALL  TOGETHER THREE TYPES OF ROOMS ARE AVAILABLE HERE!!!
-        </p>
-        {this.state.petDisplay}
+          <MDBModal isOpen= {this.state.modalEdit} toggle={() =>this.toggleEdit('')}>
+            <MDBModalBody>
+            <ProductForm name="Edit Pet" type="pets" case="edit" product={this.state.pet} />
+            </MDBModalBody>
+          </MDBModal>
+           {this.state.petDisplay}
         </MDBCardBody>
       </MDBCard>
     );
