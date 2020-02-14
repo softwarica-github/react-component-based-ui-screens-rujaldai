@@ -134,7 +134,7 @@ class Navbar extends Component {
                 </MDBNavItem><MDBNavItem style={{ display: this.state.homeItem}}>
                   <MDBDropdown>
                     <MDBDropdownToggle nav caret>
-                      <span>User</span><MDBIcon icon="user" />
+                      <span>Merchant</span><MDBIcon icon="user" />
                     </MDBDropdownToggle>
                     <MDBDropdownMenu className="dropdown-default">
                       <MDBDropdownItem ><Link to="/register">Register</Link></MDBDropdownItem>

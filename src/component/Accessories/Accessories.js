@@ -1,13 +1,22 @@
 import React from "react";
-import { MDBModalBody, MDBModalFooter, MDBModalHeader, MDBModal, MDBRow, MDBCol, MDBCard, MDBCardBody, MDBMask, MDBIcon, MDBView, MDBBtn, MDBContainer } from "mdbreact";
+import { MDBModal, MDBModalBody, MDBRow, MDBCol, MDBCard, MDBCardBody, MDBMask, MDBIcon, MDBView, MDBBtn } from "mdbreact";
 import ProductForm from "../ProductForm/ProductForm";
+import Axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 class Accessories extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      modal: false
+      modal: false,
+      modalEdit: false,
+      accList:[],
+      loaded : false,
+      accDisplay:[],
+      acc :[]
     }
+    this.toggleEdit = this.toggleEdit.bind(this);
   }
 
   toggle = () => {
@@ -16,115 +25,118 @@ class Accessories extends React.Component {
     });
   }
 
+
+  toggleEdit = function(product){
+    console.log("test");
+    console.log(product);
+    this.state.acc = product;
+    this.setState({
+      modalEdit: !this.state.modalEdit
+    });
+  }
+
+  
+  removePet = function(acc){
+    console.log(acc);
+  
+    const axios = require('axios');
+    const { version } = require('axios/package');
+    axios.defaults.headers.common['Authorization'] = 'Bearer '+localStorage.getItem('userToken');
+    axios.defaults.headers.common['Content-Type'] = 'application/json';
+   
+    axios.post("http://localhost:3023/api/product/"+acc.id,null)
+    .then(function(response) {
+      toast("Product deleted successfully.",{autoClose: 1000});
+      setTimeout(()=>{
+        window.location.replace('/accessories') ;
+      },1000);
+    });
+  
+  }
+
+  componentDidMount(){
+    var user_id = localStorage.getItem('user_id');
+    var online = localStorage.getItem('isAuthenticated') === 'true';
+    fetch("http://localhost:3023/api/product/"+user_id+"/all")
+    .then(response => {
+      return response.json();
+    }).then(data =>{
+        console.log(data.products);
+        let accDisplay = data.products.map((acc)=> {
+          if(acc.type === 'ACCESSORIES' && (acc.user_id+'' === user_id+'')){
+            return(
+              <div style={{margin: '59px'}}>
+              <MDBRow >
+                <MDBCol lg="5" xl="4"  >
+                  <MDBView hover className="rounded z-depth-1-half mb-lg-0 mb-4">
+                    <img style={{maxHeight : '200px', width:'100%', height :'100%'}}
+                      className="img-fluid"
+                      src={acc.image}
+                      alt=""
+                    />
+                    <a href="#!">
+                      <MDBMask overlay="white-slight" />
+                    </a>
+                  </MDBView>
+                </MDBCol>
+                <MDBCol  lg="7" xl="8">
+                  <h3 style={{textAlign : 'left'}} className="font-weight-bold mb-3 p-0">
+                    <strong>{acc.name}</strong>
+                  </h3>
+                  <p style={{textAlign : 'left'}} className="dark-grey-text">
+                    <strong>Price : </strong>Rs. {acc.price} 
+                  </p>
+                <p style={{textAlign : 'left'}} className="dark-grey-text">
+                <strong>Description: </strong>{acc.desc}
+                </p>
+                  
+                <MDBBtn style={{display: online ? 'none' : 'inline-block'}} color="primary" size="md">
+                      Book Now
+                  </MDBBtn>
+                <a >              
+                  <span onClick ={() => this.toggleEdit(acc)} style={{textAlign: 'left', color: 'blue', paddingRight :'30px'}}>
+                    Edit
+                  </span>            
+                </a>
+                <a >              
+                  <span onClick={() => this.removePet(acc)}  style={{textAlign: 'left', color: 'blue', paddingRight :'30px'}} >
+                    Remove
+                  </span>
+                </a>
+                </MDBCol>
+              </MDBRow>
+  
+              </div>
+              )
+          }
+        });
+        this.setState({accDisplay: accDisplay})
+       
+    }, function(err) {
+        console.log(err);
+    });
+  }
+  
+
   render() {
     return (
-      <MDBCard>
-        <MDBCardBody className="text-center">
+      <MDBCard className="text-center">
+        <MDBCardBody>
           <h2 className="h1-responsive font-weight-bold text-center my-5">
             Available Accessories
         </h2>
-            <MDBBtn onClick={this.toggle}>Add new Accessories</MDBBtn>
-            <MDBModal isOpen={this.state.modal} toggle={this.toggle}>
-              <MDBModalBody>
-                <ProductForm name="Accessories" type="accessories"/>
-        </MDBModalBody>
-            </MDBModal>
-          <p className="text-center w-responsive mx-auto mb-5">
-            Following are the availabe foods and items under the category.
-        </p>
-          <MDBRow>
-            <MDBCol lg="4" md="12" className="mb-lg-0 mb-4">
-              <MDBView hover className="rounded z-depth-2 mb-4" waves>
-                <img
-                  className="img-fluid"
-                  src="https://i.pinimg.com/originals/29/6c/50/296c500b0b4750a57a41329984f4759c.jpg"
-                  alt=""
-                />
-                <MDBMask overlay="white-slight" />
-              </MDBView>
-              <a href="#!" className="pink-text">
-                <h6 className="font-weight-bold mb-3">
-                  <MDBIcon icon="map" className="pr-2" />
-                  Breakfast
-              </h6>
-              </a>
-              <h4 className="font-weight-bold mb-3">
-                <strong>Items</strong>
-              </h4>
-              <p>
-                by <a href="#!" className="font-weight-bold">Billy Forester</a>,
-                15/07/2018
-            </p>
-              <p className="dark-grey-text">
-                Nam libero tempore, cum soluta nobis est eligendi optio cumque
-                nihil impedit quo minus id quod maxime placeat facere possimus
-                voluptas.
-            </p>
-              <MDBBtn color="pink" rounded size="md">
-                Order Now
-            </MDBBtn>
-            </MDBCol>
-            <MDBCol lg="4" md="12" className="mb-lg-0 mb-4">
-              <MDBView hover className="rounded z-depth-2 mb-4" waves>
-                <img
-                  className="img-fluid"
-                  src="https://b.zmtcdn.com/data/pictures/5/19009145/7411403559b6097a0a190e46c95d9662_featured_v2.jpg"
-                  alt=""
-                />
-                <MDBMask overlay="white-slight" />
-              </MDBView>
-              <a href="#!" className="deep-orange-text">
-                <h6 className="font-weight-bold mb-3">
-                  <MDBIcon icon="graduation-cap" className="pr-2" />
-                  Lunch
-              </h6>
-              </a>
-              <h4 className="font-weight-bold mb-3">
-                <strong>Items</strong>
-              </h4>
-              <p>
-                by <a href="#!" className="font-weight-bold">Billy Forester</a>,
-                13/07/2018
-            </p>
-              <p className="dark-grey-text">
-                At vero eos et accusamus et iusto odio dignissimos ducimus qui
-                blanditiis voluptatum deleniti atque corrupti quos dolores.
-            </p>
-              <MDBBtn color="deep-orange" rounded size="md">
-                Order Now
-            </MDBBtn>
-            </MDBCol>
-            <MDBCol lg="4" md="12" className="mb-lg-0 mb-4">
-              <MDBView hover className="rounded z-depth-2 mb-4" waves>
-                <img
-                  className="img-fluid"
-                  src="https://images.livemint.com/rf/Image-621x414/LiveMint/Period2/2017/12/23/Photos/Processed/Lunchlocal3-kfaE--621x414@LiveMint.jpg"
-                  alt=""
-                />
-                <MDBMask overlay="white-slight" />
-              </MDBView>
-              <a href="#!" className="blue-text">
-                <h6 className="font-weight-bold mb-3">
-                  <MDBIcon icon="fire" className="pr-2" />
-                  Dinner
-              </h6>
-              </a>
-              <h4 className="font-weight-bold mb-3">
-                <strong>Items</strong>
-              </h4>
-              <p>
-                by <a href="#!" className="font-weight-bold">Billy Forester</a>,
-                11/07/2018
-            </p>
-              <p className="dark-grey-text">
-                Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit
-                aut fugit, sed quia consequuntur magni dolores eos qui ratione.
-            </p>
-              <MDBBtn color="info" rounded size="md">
-                Order Now
-            </MDBBtn>
-            </MDBCol>
-          </MDBRow>
+          <MDBBtn onClick={this.toggle}>Add new Accessories</MDBBtn>
+          <MDBModal isOpen={this.state.modal} toggle={this.toggle}>
+            <MDBModalBody>
+              <ProductForm name="Accessories" type="accessories" />
+            </MDBModalBody>
+          </MDBModal>
+          <MDBModal isOpen= {this.state.modalEdit} toggle={() =>this.toggleEdit('')}>
+            <MDBModalBody>
+            <ProductForm name="Edit Accessories" type="accessories" case="edit" product={this.state.acc} />
+            </MDBModalBody>
+          </MDBModal>
+           {this.state.accDisplay}
         </MDBCardBody>
       </MDBCard>
     );

@@ -31,7 +31,7 @@ class ProductForm extends React.Component {
             this.state.type = "PETS";
         }else if(props.type === 'accessories'){
             this.state.type = "ACCESSORIES"
-        }else if (props.type === 'services'){SERVICES
+        }else if (props.type === 'services'){
             this.state.type = "SERVICES"
         }else{
             window.location.replace('/dashboard');
