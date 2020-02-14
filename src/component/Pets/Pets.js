@@ -64,50 +64,52 @@ class Pets extends React.Component {
     }).then(data =>{
         console.log(data.products);
         let petDisplay = data.products.map((pet)=> {
-          return(
-            <div style={{margin: '59px'}}>
-            <MDBRow >
-              <MDBCol lg="5" xl="4"  >
-                <MDBView hover className="rounded z-depth-1-half mb-lg-0 mb-4">
-                  <img style={{maxHeight : '200px', width:'100%', height :'100%'}}
-                    className="img-fluid"
-                    src={pet.image}
-                    alt=""
-                  />
-                  <a href="#!">
-                    <MDBMask overlay="white-slight" />
-                  </a>
-                </MDBView>
-              </MDBCol>
-              <MDBCol  lg="7" xl="8">
-                <h3 style={{textAlign : 'left'}} className="font-weight-bold mb-3 p-0">
-                  <strong>{pet.name}</strong>
-                </h3>
+          if(pet.type === 'PETS'){
+            return(
+              <div style={{margin: '59px'}}>
+              <MDBRow >
+                <MDBCol lg="5" xl="4"  >
+                  <MDBView hover className="rounded z-depth-1-half mb-lg-0 mb-4">
+                    <img style={{maxHeight : '200px', width:'100%', height :'100%'}}
+                      className="img-fluid"
+                      src={pet.image}
+                      alt=""
+                    />
+                    <a href="#!">
+                      <MDBMask overlay="white-slight" />
+                    </a>
+                  </MDBView>
+                </MDBCol>
+                <MDBCol  lg="7" xl="8">
+                  <h3 style={{textAlign : 'left'}} className="font-weight-bold mb-3 p-0">
+                    <strong>{pet.name}</strong>
+                  </h3>
+                  <p style={{textAlign : 'left'}} className="dark-grey-text">
+                    <strong>Price : </strong>Rs. {pet.price} 
+                  </p>
                 <p style={{textAlign : 'left'}} className="dark-grey-text">
-                  <strong>Price : </strong>Rs. {pet.price} 
+                <strong>Description: </strong>{pet.desc}
                 </p>
-              <p style={{textAlign : 'left'}} className="dark-grey-text">
-              <strong>Description: </strong>{pet.desc}
-              </p>
-                
-              <MDBBtn style={{display: online ? 'none' : 'inline-block'}} color="primary" size="md">
-                    Book Now
-                </MDBBtn>
-              <a >              
-                <span onClick ={() => this.toggleEdit(pet)} style={{textAlign: 'left', color: 'blue', paddingRight :'30px'}}>
-                  Edit
-                </span>            
-              </a>
-              <a >              
-                <span onClick={() => this.removePet(pet)}  style={{textAlign: 'left', color: 'blue', paddingRight :'30px'}} >
-                  Remove
-                </span>
-              </a>
-              </MDBCol>
-            </MDBRow>
-
-            </div>
-            )
+                  
+                <MDBBtn style={{display: online ? 'none' : 'inline-block'}} color="primary" size="md">
+                      Book Now
+                  </MDBBtn>
+                <a >              
+                  <span onClick ={() => this.toggleEdit(pet)} style={{textAlign: 'left', color: 'blue', paddingRight :'30px'}}>
+                    Edit
+                  </span>            
+                </a>
+                <a >              
+                  <span onClick={() => this.removePet(pet)}  style={{textAlign: 'left', color: 'blue', paddingRight :'30px'}} >
+                    Remove
+                  </span>
+                </a>
+                </MDBCol>
+              </MDBRow>
+  
+              </div>
+              )
+          }
         });
         this.setState({petDisplay: petDisplay})
        
