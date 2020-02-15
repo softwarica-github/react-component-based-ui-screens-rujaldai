@@ -25,13 +25,13 @@ class Dashboard extends Component {
     }
     
     var items =[
-      {name:"Golden Retriber",type:"PET",price:"300$",desc:"Guess what ?? its a retriver.",
+      {name:"Golden Retriber",type:"PETS",price:"300$",desc:"Guess what ?? its a retriver.",
       image:"https://www.thesprucepets.com/thmb/daHAnhowPummm2Uqe1O5drHsp-8=/960x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/golden-retriever-sitting-down-in-a-farm-837898820-5c7854ff46e0fb00011bf29a.jpg"},
-      {name:"Japanese Spitz",type:"PET",price:"100$",desc:"Guess what ?? its a Spitz.",
+      {name:"Japanese Spitz",type:"PETS",price:"100$",desc:"Guess what ?? its a Spitz.",
       image:"https://www.thesprucepets.com/thmb/daHAnhowPummm2Uqe1O5drHsp-8=/960x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/golden-retriever-sitting-down-in-a-farm-837898820-5c7854ff46e0fb00011bf29a.jpg"},
-      {name:"Pet School",type:"SERVICE",price:"1000$",desc:"Guess what ?? lets train your pet.",
+      {name:"Pet School",type:"SERVICES",price:"1000$",desc:"Guess what ?? lets train your pet.",
       image:"https://www.thesprucepets.com/thmb/daHAnhowPummm2Uqe1O5drHsp-8=/960x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/golden-retriever-sitting-down-in-a-farm-837898820-5c7854ff46e0fb00011bf29a.jpg"},
-      {name:"Pet Doctor",type:"SERVICE",price:"20$",desc:"Guess what ??Let's cure your pet.",
+      {name:"Pet Doctor",type:"SERVICES",price:"20$",desc:"Guess what ??Let's cure your pet.",
       image:"https://www.thesprucepets.com/thmb/daHAnhowPummm2Uqe1O5drHsp-8=/960x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/golden-retriever-sitting-down-in-a-farm-837898820-5c7854ff46e0fb00011bf29a.jpg"},
       {name:"Wood Pet HouseE",type:"ACCESSORIES",price:"50$",desc:"Guess what ??It's our new puppy home.",
       image:"https://i.etsystatic.com/21705089/r/il/7050b5/2107524084/il_794xN.2107524084_g2yh.jpg"},
@@ -40,9 +40,9 @@ class Dashboard extends Component {
     ];
 
     for(var item in items){
-      if(items[item].type === "PET"){
+      if(items[item].type === "PETS"){
         this.state.pets.push(items[item]);
-      }else if(items[item].type === "SERVICE"){
+      }else if(items[item].type === "SERVICES"){
         this.state.services.push(items[item]);
       }else if(items[item].type === "ACCESSORIES"){
         this.state.accessories.push(items[item]);

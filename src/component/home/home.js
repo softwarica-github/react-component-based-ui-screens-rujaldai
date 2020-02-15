@@ -1,114 +1,190 @@
 import React from "react";
 import { MDBRow, MDBCol, MDBCard, MDBCardBody, MDBMask, MDBIcon, MDBView, MDBBtn } from "mdbreact";
 import MerchantList from "../MerchantList/MerchantList";
+import styles from '../mystyle/app.css'; 
 
-const Home = () => {
+class Home extends React.Component{
+
+    constructor(props) {
+        super(props);
+        this.state = {
+          products:[],
+          pets: [],
+          services : [],
+          accessories:[],
+          petDisplay :[],
+          serviceDisplay :[],
+          accDisplay :[]
+        }
+    }
+    
+    componentDidMount(){
+        var products = [];
+        var users =[];
+        fetch("http://localhost:3023/api/product/all")
+        .then(response => {
+        return response.json();
+        }).then(data =>{
+            var products =  data.products;
+            fetch("http://localhost:3023/api/user/all")
+            .then(response => {
+            return response.json();
+            }).then(data =>{
+                users =  data.users;
+                for(var product in products){
+                    for(var user in users){
+                        if(products[product].user_id+'' === users[user].id+''){
+                            products[product].merchant_name = users[user].fullname;
+                        }
+                    }
+                }
+                for(var product in products){
+                    if(products[product].type === "PETS"){
+                        this.state.pets.push(products[product]);
+                      }else if(products[product].type === "SERVICES"){
+                        this.state.services.push(products[product]);
+                      }else if(products[product].type === "ACCESSORIES"){
+                        this.state.accessories.push(products[product]);
+                      }
+                }
+                console.log(products);
+                console.log(this.state.pets);
+                console.log(this.state.services);
+                console.log(this.state.accessories);
+                let petDisplay = this.state.pets.map((product)=> {
+                    return(
+                         <MDBCol style ={{paddingBottom:'40px', display:'grid' }} lg="4" md="12" className="mb-lg-0 mb-4">
+                         <MDBView hover className="rounded z-depth-2 mb-4" waves>
+                           <img
+                             className="img-fluid"
+                             src={product.image}
+                             style ={{maxHeight:'200px',width:'100%'}}
+                             alt=""
+                           />
+                           <MDBMask overlay="white-slight" />
+                         </MDBView>
+                         <a href="#!" className="pink-text">
+                           <p>
+                             By : {product.merchant_name}
+                           </p>
+                         </a>
+                         <p>
+                           <strong>{product.name}</strong>
+                         </p>
+                         <p>Price : Rs. {product.price}</p>
+                         <p className="dark-grey-text">
+                           {product.desc}
+                         </p>
+                         <MDBBtn color="pink" rounded size="md">
+                           BOOK
+                         </MDBBtn>
+                       </MDBCol>
+                    )
+                });
+                let serviceDisplay = this.state.services.map((product)=> {
+                    return(
+                         <MDBCol style ={{borderBottom:'20px', display:'grid'}} lg="4" md="12" className="mb-lg-0 mb-4">
+                         <MDBView hover className="rounded z-depth-2 mb-4" waves>
+                           <img
+                             className="img-fluid"
+                             src={product.image}
+                             style ={{maxHeight:'200px',width:'100%'}}
+                             alt=""
+                           />
+                           <MDBMask overlay="white-slight" />
+                         </MDBView>
+                         <a href="#!" className="pink-text">
+                           <p>
+                             By : {product.merchant_name}
+                           </p>
+                         </a>
+                         <p>
+                           <strong>{product.name}</strong>
+                         </p>
+                         <p>Price : Rs. {product.price}</p>
+                         <p className="dark-grey-text">
+                           {product.desc}
+                         </p>
+                         <MDBBtn color="pink" rounded size="md">
+                           BOOK
+                         </MDBBtn>
+                       </MDBCol>
+                    )
+                });
+                let accDisplay = this.state.accessories.map((product)=> {
+                    return(
+                         <MDBCol style ={{borderBottom:'20px', display:'grid'}} lg="4" md="12" className="mb-lg-0 mb-4">
+                         <MDBView hover className="rounded z-depth-2 mb-4" waves>
+                           <img
+                             className="img-fluid"
+                             src={product.image}
+                             style ={{maxHeight:'200px',width:'100%'}}
+                             alt=""
+                           />
+                           <MDBMask overlay="white-slight" />
+                         </MDBView>
+                         <a href="#!" className="pink-text">
+                           <p>
+                             By : {product.merchant_name}
+                           </p>
+                         </a>
+                         <p>
+                           <strong>{product.name}</strong>
+                         </p>
+                         <p>Price : Rs. {product.price}</p>
+                         <p className="dark-grey-text">
+                           {product.desc}
+                         </p>
+                         <MDBBtn color="pink" rounded size="md">
+                           BOOK
+                         </MDBBtn>
+                       </MDBCol>
+                    )
+                });
+                this.setState({
+                    petDisplay: petDisplay,
+                    serviceDisplay : serviceDisplay,
+                    accDisplay :accDisplay
+                });
+            }, function(err) {
+                console.log(err);
+            });
+        }, function(err) {
+            console.log(err);
+        });
+    }
+  render() {
+
     return (
-        <div>
-            <MDBRow>
-                <MDBCol lg="12" md="12">
-                    <MDBCard>
-                        <MDBCardBody className="text-center">
-                            <h2 className="h1-responsive font-weight-bold text-center my-5">
-                                Top Products </h2>
-                            <p className="text-center w-responsive mx-auto mb-5">
-                                Best Selling Products today
-                </p>
-
-                            <MDBRow>
-                                <MDBCol lg="4" md="6" sm="12" className="mb-lg-0 mb-4">
-                                    <MDBView hover className="rounded z-depth-2 mb-4" waves>
-                                        <img
-                                            className="img-fluid"
-                                            src="https://i.pinimg.com/originals/29/6c/50/296c500b0b4750a57a41329984f4759c.jpg"
-                                            alt=""
-                                        />
-                                        <MDBMask overlay="white-slight" />
-                                    </MDBView>
-                                    <a href="#!" className="pink-text">
-                                        <h6 className="font-weight-bold mb-3">
-                                            <MDBIcon icon="map" className="pr-2" />
-                                            Breakfast</h6></a>
-                                    <h4 className="font-weight-bold mb-3">
-                                        <strong>Items</strong></h4><p>
-                                        by <a href="#!" className="font-weight-bold">Billy Forester</a>,
-                                15/07/2018</p>
-                                    <p className="dark-grey-text">
-                                        Nam libero tempore, cum soluta nobis est eligendi optio cumque
-                                        nihil impedit quo minus id quod maxime placeat facere possimus
-                                voluptas.</p>
-                                    <MDBBtn color="pink" rounded size="md">
-                                        Order Now</MDBBtn>
-                                </MDBCol>
-                                <MDBCol lg="4" md="6" sm="12" className="mb-lg-0 mb-4">
-                                    <MDBView hover className="rounded z-depth-2 mb-4" waves>
-                                        <img
-                                            className="img-fluid"
-                                            src="https://b.zmtcdn.com/data/pictures/5/19009145/7411403559b6097a0a190e46c95d9662_featured_v2.jpg"
-                                            alt=""
-                                        />
-                                        <MDBMask overlay="white-slight" />
-                                    </MDBView>
-                                    <a href="#!" className="deep-orange-text">
-                                        <h6 className="font-weight-bold mb-3">
-                                            <MDBIcon icon="graduation-cap" className="pr-2" />
-                                            Lunch
-              </h6>
-                                    </a>
-                                    <h4 className="font-weight-bold mb-3">
-                                        <strong>Items</strong>
-                                    </h4>
-                                    <p>
-                                        by <a href="#!" className="font-weight-bold">Billy Forester</a>,
-                                        13/07/2018
-            </p>
-                                    <p className="dark-grey-text">
-                                        At vero eos et accusamus et iusto odio dignissimos ducimus qui
-                                        blanditiis voluptatum deleniti atque corrupti quos dolores.
-            </p>
-                                    <MDBBtn color="deep-orange" rounded size="md">
-                                        Order Now
-            </MDBBtn>
-                                </MDBCol>
-                                <MDBCol lg="4" md="6" sm="12" className="mb-lg-0 mb-4">
-                                    <MDBView hover className="rounded z-depth-2 mb-4" waves>
-                                        <img
-                                            className="img-fluid"
-                                            src="https://images.livemint.com/rf/Image-621x414/LiveMint/Period2/2017/12/23/Photos/Processed/Lunchlocal3-kfaE--621x414@LiveMint.jpg"
-                                            alt=""
-                                        />
-                                        <MDBMask overlay="white-slight" />
-                                    </MDBView>
-                                    <a href="#!" className="blue-text">
-                                        <h6 className="font-weight-bold mb-3">
-                                            <MDBIcon icon="fire" className="pr-2" />
-                                            Dinner
-              </h6>
-                                    </a>
-                                    <h4 className="font-weight-bold mb-3">
-                                        <strong>Items</strong>
-                                    </h4>
-                                    <p>
-                                        by <a href="#!" className="font-weight-bold">Billy Forester</a>,
-                                        11/07/2018
-            </p>
-                                    <p className="dark-grey-text">
-                                        Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit
-                                        aut fugit, sed quia consequuntur magni dolores eos qui ratione.
-            </p>
-                                    <MDBBtn color="info" rounded size="md">
-                                        Order Now
-            </MDBBtn>
-                                </MDBCol>
-
-                            </MDBRow>
-                        </MDBCardBody>
-                    </MDBCard>
-                </MDBCol>
-            </MDBRow>
-            <MerchantList heading="Top Merchants" subHeading="Top merchants available in our store" />
-        </div>
+    <MDBCard>
+      <MDBCardBody className="text-center">
+        <h2 className="h1-responsive font-weight-bold text-center ">
+          Pets
+        </h2>
+        <MDBRow>
+        {this.state.petDisplay}
+        </MDBRow>
+      </MDBCardBody>
+      <MDBCardBody className="text-center">
+        <h2 className="h1-responsive font-weight-bold text-center">
+          Service
+        </h2>
+        <MDBRow>
+        {this.state.serviceDisplay}
+        </MDBRow>
+      </MDBCardBody>
+      <MDBCardBody className="text-center">
+        <h2 className="h1-responsive font-weight-bold text-center">
+          Accessories
+        </h2>
+        <MDBRow>
+        {this.state.accDisplay}
+        </MDBRow>
+      </MDBCardBody>
+    </MDBCard>
+        
     );
+  }
 }
 
 export default Home;
