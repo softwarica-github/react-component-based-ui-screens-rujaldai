@@ -152,7 +152,7 @@ class Registration extends Component {
       address1: this.state.address1,
       address2: this.state.address2,
       password: this.state.password,
-      userType: "USER"
+      user_type: "USER"
     }
 
     Axios.post("http://localhost:3023/api/user/registration", data, headers)
