@@ -62,7 +62,7 @@ class Pets extends React.Component {
     .then(response => {
       return response.json();
     }).then(data =>{
-        console.log(data.products);
+        console.log(data.products);j
         let petDisplay = data.products.map((pet)=> {
           if(pet.type === 'PETS'){
             return(

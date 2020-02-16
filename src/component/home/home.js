@@ -1,5 +1,6 @@
 import React from "react";
-import { MDBRow, MDBCol, MDBCard, MDBCardBody, MDBMask, MDBIcon, MDBView, MDBBtn } from "mdbreact";
+import { MDBModal, MDBModalBody, MDBRow, MDBCol, MDBCard, MDBCardBody, MDBMask, MDBIcon, MDBView, MDBBtn } from "mdbreact";
+import BookingForm from "../Booking/bookingForm.js";
 import MerchantList from "../MerchantList/MerchantList";
 import styles from '../mystyle/app.css'; 
 
@@ -14,10 +15,21 @@ class Home extends React.Component{
           accessories:[],
           petDisplay :[],
           serviceDisplay :[],
-          accDisplay :[]
+          accDisplay :[],
+          product:[],
+          modal: false,
         }
+      this.toggle = this.toggle.bind(this);
     }
-    
+  
+  toggle = function(product){
+    console.log(product);
+    this.state.product = product;
+    this.setState({
+      modal: !this.state.modal
+    });
+  }
+
     componentDidMount(){
         var products = [];
         var users =[];
@@ -75,7 +87,7 @@ class Home extends React.Component{
                          <p className="dark-grey-text">
                            {product.desc}
                          </p>
-                         <MDBBtn color="pink" rounded size="md">
+                         <MDBBtn color="pink" rounded size="md" onClick ={() => this.toggle(product)}>
                            BOOK
                          </MDBBtn>
                        </MDBCol>
@@ -157,6 +169,14 @@ class Home extends React.Component{
 
     return (
     <MDBCard>
+
+      <MDBModal isOpen= {this.state.modal} toggle={() =>this.toggle('')}>
+        <MDBModalBody>
+        <BookingForm name="Book" case="edit" product={this.state.product} />
+        </MDBModalBody>
+       </MDBModal>
+      
+      
       <MDBCardBody className="text-center">
         <h2 className="h1-responsive font-weight-bold text-center ">
           Pets
