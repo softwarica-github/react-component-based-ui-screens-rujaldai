@@ -62,7 +62,7 @@ class Pets extends React.Component {
     .then(response => {
       return response.json();
     }).then(data =>{
-        console.log(data.products);j
+        console.log(data.products);
         let petDisplay = data.products.map((pet)=> {
           if(pet.type === 'PETS'){
             return(
@@ -90,7 +90,6 @@ class Pets extends React.Component {
                 <p style={{textAlign : 'left'}} className="dark-grey-text">
                 <strong>Description: </strong>{pet.desc}
                 </p>
-                  
                 <MDBBtn style={{display: online ? 'none' : 'inline-block'}} color="primary" size="md">
                       Book Now
                   </MDBBtn>
@@ -112,6 +111,7 @@ class Pets extends React.Component {
           }
         });
         this.setState({petDisplay: petDisplay})
+       
        
     }, function(err) {
         console.log(err);

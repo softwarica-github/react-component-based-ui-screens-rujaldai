@@ -117,7 +117,7 @@ class Home extends React.Component{
                          <p className="dark-grey-text">
                            {product.desc}
                          </p>
-                         <MDBBtn color="pink" rounded size="md">
+                         <MDBBtn color="pink" rounded size="md"  onClick ={() => this.toggle(product)}>
                            BOOK
                          </MDBBtn>
                        </MDBCol>
@@ -147,7 +147,7 @@ class Home extends React.Component{
                          <p className="dark-grey-text">
                            {product.desc}
                          </p>
-                         <MDBBtn color="pink" rounded size="md">
+                         <MDBBtn color="pink" rounded size="md"  onClick ={() => this.toggle(product)}>
                            BOOK
                          </MDBBtn>
                        </MDBCol>

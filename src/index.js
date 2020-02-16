@@ -14,11 +14,11 @@ import Login from "./component/Login/Login";
 import Registration from "./component/Registration/Registration";
 import Accessories from "./component/Accessories/Accessories";
 import Pets from "./component/Pets/Pets";
-import Book from './component/Order/Order';
 import Home from './component/home/home';
 import Services from './component/services/Services';
 import Dashboard from './component/Dashboard/dashboard';
 import Profile from './component/profile/profile';
+import Order from './component/order/order';
 
 import {
   MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavItem, MDBNavLink, MDBNavbarToggler, MDBCollapse, MDBDropdown,
@@ -106,6 +106,9 @@ class Navbar extends Component {
                     </MDBDropdownMenu>
                   </MDBDropdown>
                 </MDBNavItem>
+                <MDBNavItem>
+                  <MDBNavLink as={Link} to="/order">Orders</MDBNavLink>
+                </MDBNavItem>
               </MDBNavbarNav>
               <MDBNavbarNav right>
                 <MDBNavItem style={{ display: this.state.homeItem}}>
@@ -152,10 +155,9 @@ class Navbar extends Component {
             <Route exact path="/pets" component={Pets} />
             <Route exact path="/accessories" component={Accessories} />
             <Route exact path="/services" component={Services} />
-            <Route exact path="/blog" component={Book} />
             <Route exact path="/dashboard" component={Dashboard} />
             <Route exact path="/profile" component={Profile} />
-          </Switch>
+            <Route exact path="/order" component={Order} />          </Switch>
         </Router>
       </Container>
     );
