@@ -7,6 +7,7 @@ In Nepal, We have got many pet stores and sellers but not ever have we seen a pe
 Pet care not only provides services for the users but also the merchant or the pet stores. 
 
 #Features 
+
 With the help of pet store merchants can add their service, products or accessories to the web application and get them ready to be sold out in the market online. 
 This application will be very feasible to the merchants aswell as the clients as clients wont have to search every pet shops for the pets and their accessories.
 Even with the help of this application customers/clients can get the hospitality to facilitate their pets by ordering the vetenery doctors online or even buy trainning sessions.
